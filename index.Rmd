@@ -1,0 +1,237 @@
+---
+title: "Estación Meteorológica de Liberia"
+output: html_document
+---
+## Proyecto 1, Procesamiento de Datos Geográficos
+### Estudiante: Ignacio Quirós Paniagua
+### Carné: C06253
+### Profesores: Manuel Vargas & Christian Birkel  
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+library(scales)
+library(grid)
+library(gridExtra)
+```
+
+## Carga de los datos  
+#### Verificación y limpieza de los datos  
+
+Cada dato de la estación se revisó y se limpió si poseía N/A en sus lineas
+
+```{r datos, echo=TRUE}
+clm1 <- read.csv("liberia_datos_climaticos.csv", sep = ",", na.strings = "", dec =",")
+clm1[!complete.cases(clm1),]
+clm1 <- na.omit(clm1)
+```
+
+Para visualizar mejor los datos de la estación se cmabiaron los nombres de cada variable
+
+```{r nombre, echo=TRUE}
+clm1 <- clm1 %>%
+  rename(Temperatura =Temperatura..Celsius.,
+         Fecha = Date,
+         Humedad = HumedadRelativa....,
+         Velocidad = VelocidadViento..m.s.,
+         Lluvia = Lluvia..mm.,
+         Irradiacion = Irradiacion..W.m2.,
+         Evaporacion = EvapoTranspiracion..mm.
+         )
+clm1 <- 
+  clm1 %>%
+  mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))
+```
+
+```{r date, echo=TRUE}
+clm1 <- 
+  clm1 %>%
+  mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))
+```
+
+
+
+
+
+El proyecto se realizó con la variable "clm1" para así tener un documento orignal intacto.
+
+## Creación del panel de histogramas
+
+Teniendo los datos limpios, sin N/A, es posible realizar una graficación exitosa.
+
+```{r hist, echo=TRUE}
+k<- ggplot(clm1,aes(y=Lluvia,group = 1))+
+  geom_histogram(
+    col="#1E90FF",
+    fill="#87CEEB"
+  ) +
+  ggtitle("Lluvia")+
+  xlab("Dato") +
+  ylab("Lluvia en mm") +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+l<- ggplot(clm1, aes(y= Humedad, group = 1, colour = Humedad)) +
+  geom_histogram(
+    col="#98FB98",
+    fill="#3CB371"
+  ) +
+  ggtitle("Humedad")+
+  xlab("Dato") +
+  ylab("Humedad Relativa %") +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+m<- ggplot(clm1, aes(y= Temperatura, group = 1, colour = Temperatura)) +
+  geom_histogram(
+    col="#FA8072",
+    fill="#CD5C5C"
+  ) +
+  ggtitle("Temperatura")+
+  xlab("Dato") +
+  ylab("Temperatura en ℃") +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+n<- ggplot(clm1, aes(y= Velocidad, group = 1, colour = Velocidad)) +
+  geom_histogram(
+    col="#40E0D0",
+    fill="#AFEEEE"
+  ) +
+  ggtitle("Velocidad")+
+  xlab("Dato") +
+  ylab("Velocidad en m/s") +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+o<- ggplot(clm1, aes(y= Evaporacion, group = 1, colour = Evaporacion)) +
+  geom_histogram(
+    col="#BC8F8F",
+    fill="#FFDEAD"
+  ) +
+  ggtitle("Evaporación")+
+  xlab("Dato") +
+  ylab("Evaporación en mm") +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+p<- ggplot(clm1, aes(y= Irradiacion, group = 1, colour = Irradiacion)) +
+  geom_histogram(
+    col="#DDA0DD",
+    fill="#D8BFD8"
+  ) +
+  ggtitle("Irradiación")+
+  xlab("Dato") +
+  ylab("Irradiación en Wm2") +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+grid.arrange(k,l,m,n,o,p, nrow = 2, ncol = 3)
+```
+
+## Creación de los datos lineales
+
+Para poder graficar los datos lineales primeramente se tiene que promediar sus valiables, tanto por mes y por año
+
+## Carga de las variables promediadas
+```{r prom, echo=TRUE}
+Data_prom <-
+  clm1 %>%
+  select(Fecha, Temperatura, Humedad, Velocidad, Lluvia, Irradiacion, Evaporacion)%>%
+  mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))%>%
+  group_by (Fecha = format(Fecha,"%Y")) %>%
+  summarise(Lluvia = sum(Lluvia),Evaporacion = sum(Evaporacion),
+            Temperatura = mean(Temperatura),Velocidad = mean(Velocidad),
+            Irradiacion = mean(Irradiacion), Humedad = mean(Humedad))
+
+```  
+
+Ahora al poseer los datos promediados, se puede proceder a graficar.
+```{r line, echo=TRUE}
+a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1)) + 
+  geom_line() +
+  ylab("\nLluvia en mm") +
+  geom_point() +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1)) +
+  geom_line() +
+  ylab("\nHumedad Relativa %") +
+  geom_point() +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1)) +
+  geom_line() +
+  ylab("\nTemperatura en °C") +
+  geom_point() +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1)) +
+  geom_line() +
+  ylab("\nVelocidad en m/s") +
+  geom_point() +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1)) +
+  geom_line() +
+  ylab("\nEvaporación en mm") +
+  geom_point() +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+f<- ggplot(Data_prom, aes(x= Fecha, y= Irradiacion, group = 1)) +
+  geom_line() +
+  ylab("\nIrradiacion en Wm2") +
+  geom_point() +
+  theme_ipsum(
+    axis_text_size = 9,
+    ticks = TRUE,
+    axis = "y",
+    grid = "Y,y"
+  )
+grid.arrange(a,b,c,d,e,f, nrow =2, ncol =3)
+```
+
+
+
+
+
+
