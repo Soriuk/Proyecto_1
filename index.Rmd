@@ -7,7 +7,7 @@ output: html_document
 ### Carné: C06253
 ### Profesores: Manuel Vargas & Christian Birkel  
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(dplyr)
 library(hrbrthemes)
@@ -21,15 +21,18 @@ library(gridExtra)
 
 Cada dato de la estación se revisó y se limpió si poseía N/A en sus lineas
 
-```{r datos, echo=TRUE}
+```{r datos, echo=TRUE, message=FALSE, warning=FALSE}
 clm1 <- read.csv("liberia_datos_climaticos.csv", sep = ",", na.strings = "", dec =",")
-clm1[!complete.cases(clm1),]
 clm1 <- na.omit(clm1)
 ```
 
-Para visualizar mejor los datos de la estación se cmabiaron los nombres de cada variable
+```{r, clm1, echo=TRUE, message=FALSE, warning=FALSE}
+clm1[!complete.cases(clm1),]
+```
 
-```{r nombre, echo=TRUE}
+Para visualizar mejor los datos de la estación se cambiaron los nombres de cada variable
+
+```{r nombre, echo=TRUE, message=FALSE, warning=FALSE}
 clm1 <- clm1 %>%
   rename(Temperatura =Temperatura..Celsius.,
          Fecha = Date,
@@ -44,15 +47,11 @@ clm1 <-
   mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))
 ```
 
-```{r date, echo=TRUE}
+```{r date, echo=TRUE, message=FALSE, warning=FALSE}
 clm1 <- 
   clm1 %>%
   mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))
 ```
-
-
-
-
 
 El proyecto se realizó con la variable "clm1" para así tener un documento orignal intacto.
 
@@ -60,7 +59,7 @@ El proyecto se realizó con la variable "clm1" para así tener un documento orig
 
 Teniendo los datos limpios, sin N/A, es posible realizar una graficación exitosa.
 
-```{r hist, echo=TRUE}
+```{r hist, echo=TRUE, message=FALSE, warning=FALSE}
 k<- ggplot(clm1,aes(y=Lluvia,group = 1))+
   geom_histogram(
     col="#1E90FF",
@@ -153,7 +152,7 @@ grid.arrange(k,l,m,n,o,p, nrow = 2, ncol = 3)
 Para poder graficar los datos lineales primeramente se tiene que promediar sus valiables, tanto por mes y por año
 
 ## Carga de las variables promediadas
-```{r prom, echo=TRUE}
+```{r prom, echo=TRUE, message=FALSE, warning=FALSE}
 Data_prom <-
   clm1 %>%
   select(Fecha, Temperatura, Humedad, Velocidad, Lluvia, Irradiacion, Evaporacion)%>%
@@ -166,7 +165,7 @@ Data_prom <-
 ```  
 
 Ahora al poseer los datos promediados, se puede proceder a graficar.
-```{r line, echo=TRUE}
+```{r line, echo=TRUE, message=FALSE, warning=FALSE}
 a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1)) + 
   geom_line() +
   ylab("\nLluvia en mm") +
