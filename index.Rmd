@@ -19,9 +19,10 @@ library(gridExtra)
 ## Carga de los datos  
 #### Verificación y limpieza de los datos  
 
-Cada dato de la estación se revisó y se limpió si poseía N/A en sus lineas
+Cada dato de la estación se revisó y se limpió si este poseía N/A en sus lineas
 
 ```{r datos, echo=TRUE, message=FALSE, warning=FALSE}
+clm <- read.csv("liberia_datos_climaticos.csv", sep = ",", na.strings = "", dec =",")
 clm1 <- read.csv("liberia_datos_climaticos.csv", sep = ",", na.strings = "", dec =",")
 clm1 <- na.omit(clm1)
 ```

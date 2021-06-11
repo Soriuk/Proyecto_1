@@ -184,8 +184,9 @@ pre code {
 <h2>Carga de los datos</h2>
 <div id="verificación-y-limpieza-de-los-datos" class="section level4">
 <h4>Verificación y limpieza de los datos</h4>
-<p>Cada dato de la estación se revisó y se limpió si poseía N/A en sus lineas</p>
-<pre class="r"><code>clm1 &lt;- read.csv(&quot;liberia_datos_climaticos.csv&quot;, sep = &quot;,&quot;, na.strings = &quot;&quot;, dec =&quot;,&quot;)
+<p>Cada dato de la estación se revisó y se limpió si este poseía N/A en sus lineas</p>
+<pre class="r"><code>clm &lt;- read.csv(&quot;liberia_datos_climaticos.csv&quot;, sep = &quot;,&quot;, na.strings = &quot;&quot;, dec =&quot;,&quot;)
+clm1 &lt;- read.csv(&quot;liberia_datos_climaticos.csv&quot;, sep = &quot;,&quot;, na.strings = &quot;&quot;, dec =&quot;,&quot;)
 clm1 &lt;- na.omit(clm1)</code></pre>
 <pre class="r"><code>clm1[!complete.cases(clm1),]</code></pre>
 <pre><code>## [1] Date                    Temperatura..Celsius.   HumedadRelativa....    
