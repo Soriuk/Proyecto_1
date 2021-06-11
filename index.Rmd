@@ -60,7 +60,7 @@ El proyecto se realizó con la variable "clm1" para así tener un documento orig
 
 Teniendo los datos limpios, sin N/A, es posible realizar una graficación exitosa.
 
-```{r hist, echo=TRUE, message=FALSE, warning=FALSE}
+```{r hist, echo=TRUE, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 k<- ggplot(clm1,aes(y=Lluvia,group = 1))+
   geom_histogram(
     col="#1E90FF",
@@ -166,8 +166,8 @@ Data_prom <-
 ```  
 
 Ahora al poseer los datos promediados, se puede proceder a graficar.
-```{r line, echo=TRUE, message=FALSE, warning=FALSE}
-a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1)) + 
+```{r line, echo=TRUE, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1, colour=Lluvia,)) + 
   geom_line() +
   ylab("\nLluvia en mm") +
   geom_point() +
@@ -177,7 +177,7 @@ a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1)) +
     axis = "y",
     grid = "Y,y"
   )
-b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1)) +
+b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1, colour = Humedad,)) +
   geom_line() +
   ylab("\nHumedad Relativa %") +
   geom_point() +
@@ -187,7 +187,7 @@ b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1)) +
     axis = "y",
     grid = "Y,y"
   )
-c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1)) +
+c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1, colour = Temperatura)) +
   geom_line() +
   ylab("\nTemperatura en °C") +
   geom_point() +
@@ -197,7 +197,7 @@ c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1)) +
     axis = "y",
     grid = "Y,y"
   )
-d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1)) +
+d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1, colour = Velocidad)) +
   geom_line() +
   ylab("\nVelocidad en m/s") +
   geom_point() +
@@ -207,7 +207,7 @@ d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1)) +
     axis = "y",
     grid = "Y,y"
   )
-e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1)) +
+e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1, colour = Evaporacion)) +
   geom_line() +
   ylab("\nEvaporación en mm") +
   geom_point() +
@@ -217,7 +217,7 @@ e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1)) +
     axis = "y",
     grid = "Y,y"
   )
-f<- ggplot(Data_prom, aes(x= Fecha, y= Irradiacion, group = 1)) +
+f<- ggplot(Data_prom, aes(x= Fecha, y= Irradiacion, group = 1, colour = Irradiacion)) +
   geom_line() +
   ylab("\nIrradiacion en Wm2") +
   geom_point() +
@@ -227,7 +227,7 @@ f<- ggplot(Data_prom, aes(x= Fecha, y= Irradiacion, group = 1)) +
     axis = "y",
     grid = "Y,y"
   )
-grid.arrange(a,b,c,d,e,f, nrow =2, ncol =3)
+grid.arrange(a,b,c,d,e,f, nrow =6, ncol =1)
 ```
 
 
