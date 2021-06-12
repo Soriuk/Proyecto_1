@@ -216,7 +216,6 @@ g<- ggplot(clm1,aes(x=Fecha, y=Lluvia,group = 1))+
     fill="#87CEEB"
   ) +
   ggtitle("Lluvia")+
-  xlab("Dato") +
   ylab("Lluvia en mm") +
   theme_ipsum(
     axis_text_size = 9,
@@ -230,7 +229,6 @@ h<- ggplot(clm1, aes(x=Fecha, y= Humedad, group = 1, colour = Humedad)) +
     fill="#3CB371"
   ) +
   ggtitle("Humedad")+
-  xlab("Dato") +
   ylab("Humedad Relativa %") +
   theme_ipsum(
     axis_text_size = 9,
@@ -244,7 +242,6 @@ i<- ggplot(clm1, aes(x=Fecha, y= Temperatura, group = 1, colour = Temperatura)) 
     fill="#CD5C5C"
   ) +
   ggtitle("Temperatura")+
-  xlab("Dato") +
   ylab("Temperatura en ???") +
   theme_ipsum(
     axis_text_size = 9,
@@ -258,7 +255,6 @@ j<- ggplot(clm1, aes(x=Fecha, y= Velocidad, group = 1, colour = Velocidad)) +
     fill="#AFEEEE"
   ) +
   ggtitle("Velocidad")+
-  xlab("Dato") +
   ylab("Velocidad en m/s") +
   theme_ipsum(
     axis_text_size = 9,
@@ -272,7 +268,6 @@ w<- ggplot(clm1, aes(x=Fecha, y= Evaporacion, group = 1, colour = Evaporacion)) 
     fill="#FFDEAD"
   ) +
   ggtitle("Evaporación")+
-  xlab("Dato") +
   ylab("Evaporación en mm") +
   theme_ipsum(
     axis_text_size = 9,
@@ -286,7 +281,6 @@ z<- ggplot(clm1, aes(x=Fecha, y= Irradiacion, group = 1, colour = Irradiacion)) 
     fill="#D8BFD8"
   ) +
   ggtitle("Irradiación")+
-  xlab("Dato") +
   ylab("Irradiación en Wm2") +
   theme_ipsum(
     axis_text_size = 9,
@@ -294,5 +288,4 @@ z<- ggplot(clm1, aes(x=Fecha, y= Irradiacion, group = 1, colour = Irradiacion)) 
     axis = "y",
     grid = "Y,y"
   )
-
 grid.arrange(g,h,i,j,w,z, nrow =2, ncol =3)
