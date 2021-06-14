@@ -136,7 +136,7 @@ Data_prom <-
   clm1 %>%
   select(Fecha, Temperatura, Humedad, Velocidad, Lluvia, Irradiacion, Evaporacion)%>%
   mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))%>%
-  group_by (Fecha = format(Fecha,"%Y")) %>%
+  group_by (Fecha = format(Fecha,"%Y/%m")) %>%
   summarise(Lluvia = sum(Lluvia),Evaporacion = sum(Evaporacion),
             Temperatura = mean(Temperatura),Velocidad = mean(Velocidad),
             Irradiacion = mean(Irradiacion), Humedad = mean(Humedad))
@@ -146,19 +146,25 @@ Data_prom <-
 a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1, colour=Lluvia,)) + 
   geom_line() +
   ylab("\nLluvia en mm") +
+  xlab("\nMes Y Año") +
   geom_point() +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   theme_ipsum(
-    axis_text_size = 9,
+    axis_text_size = 7,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"
   )
+  
+
 b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1, colour = Humedad,)) +
   geom_line() +
   ylab("\nHumedad Relativa %") +
+  xlab("\nMes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
-    axis_text_size = 9,
+    axis_text_size = 7,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"
@@ -166,9 +172,11 @@ b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1, colour = Humedad,)) +
 c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1, colour = Temperatura)) +
   geom_line() +
   ylab("\nTemperatura en °C") +
+  xlab("\nMes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
-    axis_text_size = 9,
+    axis_text_size = 7,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"
@@ -176,9 +184,11 @@ c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1, colour = Temperat
 d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1, colour = Velocidad)) +
   geom_line() +
   ylab("\nVelocidad en m/s") +
+  xlab("\nMes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
-    axis_text_size = 9,
+    axis_text_size = 7,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"
@@ -186,9 +196,11 @@ d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1, colour = Velocidad)
 e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1, colour = Evaporacion)) +
   geom_line() +
   ylab("\nEvaporación en mm") +
+  xlab("\nMes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
-    axis_text_size = 9,
+    axis_text_size = 7,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"
@@ -196,9 +208,11 @@ e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1, colour = Evaporac
 f<- ggplot(Data_prom, aes(x= Fecha, y= Irradiacion, group = 1, colour = Irradiacion)) +
   geom_line() +
   ylab("\nIrradiacion en Wm2") +
+  xlab("\nMes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
-    axis_text_size = 9,
+    axis_text_size = 7,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"

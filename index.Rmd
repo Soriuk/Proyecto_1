@@ -158,7 +158,7 @@ Data_prom <-
   clm1 %>%
   select(Fecha, Temperatura, Humedad, Velocidad, Lluvia, Irradiacion, Evaporacion)%>%
   mutate(Fecha = as.Date(Fecha, format = "%d/%m/%Y"))%>%
-  group_by (Fecha = format(Fecha,"%m")) %>%
+  group_by (Fecha = format(Fecha,"%Y/%m")) %>%
   summarise(Lluvia = sum(Lluvia),Evaporacion = sum(Evaporacion),
             Temperatura = mean(Temperatura),Velocidad = mean(Velocidad),
             Irradiacion = mean(Irradiacion), Humedad = mean(Humedad))
@@ -166,22 +166,26 @@ Data_prom <-
 ```  
 
 Ahora al poseer los datos promediados, se puede proceder a graficar.
-```{r line, echo=TRUE, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+```{r line, echo=TRUE, fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
 a<- ggplot(Data_prom,aes(x=Fecha,y=Lluvia,group = 1, colour=Lluvia,)) + 
   geom_line() +
   ylab("\nLluvia en mm") +
-  xlab("\nMes") +
+  xlab("\nAño y Mes") +
   geom_point() +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   theme_ipsum(
     axis_text_size = 9,
     ticks = TRUE,
     axis = "y",
     grid = "Y,y"
   )
+  
+
 b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1, colour = Humedad,)) +
   geom_line() +
   ylab("\nHumedad Relativa %") +
-  xlab("\nMes") +
+  xlab("\nAño y Mes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
     axis_text_size = 9,
@@ -192,7 +196,8 @@ b<- ggplot(Data_prom, aes(x= Fecha, y= Humedad, group = 1, colour = Humedad,)) +
 c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1, colour = Temperatura)) +
   geom_line() +
   ylab("\nTemperatura en °C") +
-  xlab("\nMes") +
+  xlab("\nAño y Mes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
     axis_text_size = 9,
@@ -203,7 +208,8 @@ c<- ggplot(Data_prom, aes(x= Fecha, y= Temperatura, group = 1, colour = Temperat
 d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1, colour = Velocidad)) +
   geom_line() +
   ylab("\nVelocidad en m/s") +
-  xlab("\nMes") +
+  xlab("\nAño y Mes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
     axis_text_size = 9,
@@ -214,7 +220,8 @@ d<- ggplot(Data_prom, aes(x= Fecha, y= Velocidad, group = 1, colour = Velocidad)
 e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1, colour = Evaporacion)) +
   geom_line() +
   ylab("\nEvaporación en mm") +
-  xlab("\nMes") +
+  xlab("\nAño y Mes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
     axis_text_size = 9,
@@ -225,7 +232,8 @@ e<- ggplot(Data_prom, aes(x= Fecha, y= Evaporacion, group = 1, colour = Evaporac
 f<- ggplot(Data_prom, aes(x= Fecha, y= Irradiacion, group = 1, colour = Irradiacion)) +
   geom_line() +
   ylab("\nIrradiacion en Wm2") +
-  xlab("\nMes") +
+  xlab("\nAño y Mes") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   geom_point() +
   theme_ipsum(
     axis_text_size = 9,
@@ -271,7 +279,7 @@ i<- ggplot(clm1, aes(x=Fecha, y= Temperatura, group = 1, colour = Temperatura)) 
     fill="#CD5C5C"
   ) +
   ggtitle("Temperatura")+
-  ylab("Temperatura en ℃") +
+  ylab("Temperatura en °C") +
   theme_ipsum(
     axis_text_size = 9,
     ticks = TRUE,
@@ -310,7 +318,7 @@ z<- ggplot(clm1, aes(x=Fecha, y= Irradiacion, group = 1, colour = Irradiacion)) 
     fill="#D8BFD8"
   ) +
   ggtitle("Irradiación")+
-  ylab("Irradiación en Wm2") +
+  ylab("Irradiación en wm2") +
   theme_ipsum(
     axis_text_size = 9,
     ticks = TRUE,
